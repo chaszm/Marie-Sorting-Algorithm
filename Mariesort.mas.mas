@@ -1,0 +1,99 @@
+// Load the next two values to test into
+// aaddr and baddr.
+loop, load arrayaddr
+add index
+store aaddr
+add one
+store baddr
+
+// Test to see if value at aaddr > value at baddr
+// If not, continue
+// If so, send these values to swap.
+loadi aaddr
+store c
+loadi baddr
+subt c
+skipcond 000
+jns swap
+
+// Increment index and and check if index - loopcount < 0
+// If not, continue
+// If so, jump to resetloops
+load index
+add one
+store index
+subt loopcount
+skipcond 000
+jns resetloops
+
+// Check if loopcount != 0.
+// If not, continue to print values.
+// If so, jump to loop (beginning of program)
+load loopcount
+skipcond 400
+jump loop
+
+// Print the values and halt!
+print, load arrayaddr
+add index
+store aaddr
+loadi aaddr
+output
+load index
+add one
+store index
+subt ten
+skipcond 400
+jump print
+halt
+
+// Set index to 0, Decrement loop count
+resetloops, hex 0
+clear
+store index
+load loopcount
+subt one
+store loopcount
+jumpi resetloops
+
+// Swap the values of aaddr and baddr.
+swap, hex 0
+loadi aaddr
+store c
+loadi baddr
+storei aaddr
+load c
+storei baddr
+jumpi swap
+
+// Variables
+one, hex 1         // Constant
+ten, hex A         // Constant
+index, hex 0       // Inner index
+loopcount, hex 9   // Outer index
+aaddr, hex 0       // A address
+baddr, hex 0       // B address
+c, hex 0           // C (Temporary)
+arrayaddr, hex 040 // Array location
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+hex 0              // Unused
+
+// Array to sort, 10 elements long
+
+hex 5
+hex 35
+hex 75
+hex 45
+hex 85
+hex 25
+hex 95
+hex 55
+hex 15
+hex 65
